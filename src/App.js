@@ -1,6 +1,6 @@
 import React from "react";
-import { NoteScreen } from "./components/note/NoteScreen";
+import { AppRouter } from "./routers/AppRouter";
 
 export const App = () => {
-  return <NoteScreen />;
+  return <AppRouter />;
 };
