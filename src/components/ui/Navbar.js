@@ -32,10 +32,16 @@ export const Navbar = () => {
                   Features
                 </NavLink>
               </li>
+            </ul>
+          </div>
+
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <NavLink className="nav-link" to="#">
-                  Salir
-                </NavLink>
+                <span className="nav-link">Emanuel</span>
+              </li>
+              <li className="nav-item">
+                <button className="btn btn-danger nav-link">Salir</button>
               </li>
             </ul>
           </div>
