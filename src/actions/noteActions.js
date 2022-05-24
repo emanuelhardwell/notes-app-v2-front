@@ -16,3 +16,12 @@ export const noteDelete = (noteId) => ({
     id: noteId,
   },
 });
+
+export const noteActive = (note) => ({
+  type: types.noteActive,
+  payload: note,
+});
+
+export const noteClearActive = () => ({
+  type: types.noteClearActive,
+});
