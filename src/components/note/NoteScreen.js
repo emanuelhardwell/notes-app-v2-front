@@ -5,6 +5,13 @@ import { Navbar } from "../ui/Navbar";
 import { NoteModal } from "./NoteModal";
 import MUIDataTable from "mui-datatables";
 import { noteActive, noteDelete } from "../../actions/noteActions";
+import { createTheme, ThemeProvider } from "@mui/material";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 export const NoteScreen = () => {
   const dispatch = useDispatch();
@@ -106,6 +113,14 @@ export const NoteScreen = () => {
     selectableRows: "none",
     responsive: "standard",
     tableBodyHeight: "400px",
+    textLabels: {
+      pagination: {
+        next: "Siguiente >",
+        previous: "< Anterior",
+        rowsPerPage: "Filas por página",
+        displayRows: "de",
+      },
+    },
     onRowsDelete: (rowsDeleted, data, dataIndex) => {
       console.log(rowsDeleted.data);
       console.log(data);
@@ -126,13 +141,14 @@ export const NoteScreen = () => {
                 Agregar
               </button>
             </div>
-
-            <MUIDataTable
-              title={"Lista de notas"}
-              columns={colums}
-              data={notes}
-              options={options}
-            />
+            <ThemeProvider theme={darkTheme}>
+              <MUIDataTable
+                title={"Lista de notas"}
+                columns={colums}
+                data={notes}
+                options={options}
+              />
+            </ThemeProvider>
           </div>
         </div>
       </div>

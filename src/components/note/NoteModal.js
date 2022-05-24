@@ -87,7 +87,9 @@ export const NoteModal = () => {
         // onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
-        closeTimeoutMS={20}
+        closeTimeoutMS={200}
+        // className="modal"
+        overlayClassName="modal-fondo"
         contentLabel="Note Modal"
       >
         <h5 className="text-center">
