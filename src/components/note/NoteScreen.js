@@ -4,6 +4,7 @@ import { modalOpen } from "../../actions/uiActions";
 import { Navbar } from "../ui/Navbar";
 import { NoteModal } from "./NoteModal";
 import MUIDataTable from "mui-datatables";
+import { noteActive, noteDelete } from "../../actions/noteActions";
 
 export const NoteScreen = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,18 @@ export const NoteScreen = () => {
     console.log("delete products");
   };
 
+  const handleDelete = (id) => {
+    dispatch(noteDelete(id));
+  };
+
+  const handleUpdate = (id) => {
+    const note = notes.filter((note) => note.id === id);
+    // console.log(note[0]);
+
+    dispatch(noteActive(note[0]));
+    dispatch(modalOpen());
+  };
+
   const colums = [
     {
       name: "id",
@@ -24,6 +37,7 @@ export const NoteScreen = () => {
       options: {
         filter: false,
         sort: true,
+        display: false,
       },
     },
     { name: "title", label: "TITLE", options: { filter: false, sort: false } },
@@ -44,14 +58,15 @@ export const NoteScreen = () => {
             <button
               className="btn btn-danger btn-sm"
               onClick={() => {
-                console.log(value);
-                console.log(tableMeta.rowData[0]);
+                // console.log(value);
+                // console.log(tableMeta.rowData[0]);
                 // console.log(updateValue);
                 // const dataNew = products.filter(
                 //   (p) => p.id !== tableMeta.rowData[0]
                 // );
                 // console.log(dataNew);
                 // setProducts(dataNew);
+                handleDelete(tableMeta.rowData[0]);
               }}
             >
               Delete
@@ -73,6 +88,9 @@ export const NoteScreen = () => {
               className="btn btn-success btn-sm"
               onClick={() => {
                 // updateProdut(tableMeta.rowData[0]);
+                // console.log(tableMeta);
+                // console.log(tableMeta.tableData);
+                handleUpdate(tableMeta.rowData[0]);
               }}
             >
               Edit
@@ -85,7 +103,12 @@ export const NoteScreen = () => {
 
   const options = {
     filterType: "checkbox",
+    // selectableRowsHideCheckboxes: false,
+    selectableRows: "none",
     onRowsDelete: (rowsDeleted, data, dataIndex) => {
+      console.log(rowsDeleted.data);
+      console.log(data);
+      console.log(dataIndex);
       deleteProducts(rowsDeleted);
     },
   };

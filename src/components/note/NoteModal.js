@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-modal";
 import Swal from "sweetalert2";
 import { modalClose } from "../../actions/uiActions";
-import { noteAdd } from "../../actions/noteActions";
+import {
+  noteAdd,
+  noteClearActive,
+  noteUpdate,
+} from "../../actions/noteActions";
 import { v4 as uuidv4 } from "uuid";
 
 const customStyles = {
@@ -26,6 +30,7 @@ const initialState = {
 
 export const NoteModal = () => {
   const { modalOpen } = useSelector((state) => state.ui);
+  const { noteActive } = useSelector((state) => state.note);
   const dispatch = useDispatch();
   const [formValues, setFormValues] = useState(initialState);
 
@@ -49,16 +54,31 @@ export const NoteModal = () => {
         "error"
       );
     }
-    console.log(title, description);
+    // console.log(title, description);
 
-    dispatch(noteAdd({ id: uuidv4(), title, description }));
-    handleReset();
-    closeModal();
+    if (noteActive) {
+      dispatch(noteUpdate(formValues));
+      closeModal();
+      dispatch(noteClearActive());
+    } else {
+      dispatch(noteAdd({ id: uuidv4(), title, description }));
+      handleReset();
+      closeModal();
+    }
   };
 
   const closeModal = () => {
     dispatch(modalClose());
+    dispatch(noteClearActive());
   };
+
+  useEffect(() => {
+    if (noteActive) {
+      setFormValues(noteActive);
+    } else {
+      setFormValues(initialState);
+    }
+  }, [noteActive]);
 
   return (
     <>
@@ -67,10 +87,13 @@ export const NoteModal = () => {
         // onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
-        closeTimeoutMS={200}
+        closeTimeoutMS={20}
         contentLabel="Note Modal"
       >
-        <h5> Registrar una nueva nota </h5>
+        <h5 className="text-center">
+          {" "}
+          {noteActive ? "Editar nota" : "Registrar nueva nota"}{" "}
+        </h5>
         <hr />
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -96,7 +119,10 @@ export const NoteModal = () => {
           </div>
 
           <div className="mb-3 d-grid gap-2">
-            <button className="btn btn-primary">Crear nota</button>
+            <button className="btn btn-primary">
+              {" "}
+              {noteActive ? "Editar nota" : "Crear nota"}{" "}
+            </button>
           </div>
         </form>
       </Modal>
