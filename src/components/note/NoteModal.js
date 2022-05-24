@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import Swal from "sweetalert2";
 import { modalClose } from "../../actions/uiActions";
 import { noteAdd } from "../../actions/noteActions";
+import { v4 as uuidv4 } from "uuid";
 
 const customStyles = {
   content: {
@@ -50,8 +51,9 @@ export const NoteModal = () => {
     }
     console.log(title, description);
 
-    dispatch(noteAdd({ id: "12222", title, description }));
+    dispatch(noteAdd({ id: uuidv4(), title, description }));
     handleReset();
+    closeModal();
   };
 
   const closeModal = () => {
