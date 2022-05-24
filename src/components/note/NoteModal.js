@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-modal";
 import Swal from "sweetalert2";
 import { modalClose } from "../../actions/uiActions";
+import { noteAdd } from "../../actions/noteActions";
 
 const customStyles = {
   content: {
@@ -41,13 +42,15 @@ export const NoteModal = () => {
     e.preventDefault();
 
     if (title.trim().length < 5 || description.trim().length < 5) {
-      Swal.fire(
+      return Swal.fire(
         "Error",
         "Ingrese un titulo y una descripción igual o mayor a 5 letras",
         "error"
       );
     }
     console.log(title, description);
+
+    dispatch(noteAdd({ id: "12222", title, description }));
     handleReset();
   };
 
@@ -62,6 +65,7 @@ export const NoteModal = () => {
         // onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
+        closeTimeoutMS={200}
         contentLabel="Note Modal"
       >
         <h5> Registrar una nueva nota </h5>
