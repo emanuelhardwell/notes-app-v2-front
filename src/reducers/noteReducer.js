@@ -18,6 +18,21 @@ const initialState = {
       title: "Hola bebe 3",
       description: "Hola bebe 3",
     },
+    {
+      id: uuidv4(),
+      title: "Hola bebe 4",
+      description: "Hola bebe 4",
+    },
+    {
+      id: uuidv4(),
+      title: "Hola bebe 5",
+      description: "Hola bebe 5",
+    },
+    {
+      id: uuidv4(),
+      title: "Hola bebe 6",
+      description: "Hola bebe 6",
+    },
   ],
   noteActive: null,
 };

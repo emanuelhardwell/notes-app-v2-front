@@ -103,8 +103,9 @@ export const NoteScreen = () => {
 
   const options = {
     filterType: "checkbox",
-    // selectableRowsHideCheckboxes: false,
     selectableRows: "none",
+    responsive: "standard",
+    tableBodyHeight: "400px",
     onRowsDelete: (rowsDeleted, data, dataIndex) => {
       console.log(rowsDeleted.data);
       console.log(data);
