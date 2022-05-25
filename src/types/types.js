@@ -7,4 +7,9 @@ export const types = {
   noteDelete: "[Note] delete",
   noteActive: "[Note] active",
   noteClearActive: "[Note] clear active",
+
+  // authCheckingStart: "[Auth] checking start",
+  authCheckingFinish: "[Auth] checking finish",
+  authLogin: "[Auth] login",
+  authLogout: "[Auth] log out",
 };
