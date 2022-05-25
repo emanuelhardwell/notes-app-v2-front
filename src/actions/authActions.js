@@ -1,10 +1,6 @@
 import Swal from "sweetalert2";
-import { fetchWithOutToken } from "../helpers/fetch";
+import { fetchWithOutToken, fetchWithToken } from "../helpers/fetch";
 import { types } from "../types/types";
-
-// const authCheckingFinish = () => ({
-//   type: types.authCheckingFinish,
-// });
 
 export const startLogin = (email, password) => {
   return async (dispatch) => {
@@ -13,7 +9,7 @@ export const startLogin = (email, password) => {
       const body = await res.json();
 
       if (body.ok) {
-        console.log(body);
+        // console.log(body);
         localStorage.setItem("x-token", body.token);
         localStorage.setItem("token-init-date", new Date().getTime());
         dispatch(login({ name: body.name, uid: body.uid }));
@@ -49,11 +45,43 @@ export const startRegister = (name, email, password) => {
   };
 };
 
+export const startAuthCheckingFinish = () => {
+  return async (dispatch) => {
+    try {
+      const res = await fetchWithToken("auth/renew");
+      const body = await res.json();
+
+      if (body.ok) {
+        console.log(body);
+        localStorage.setItem("x-token", body.token);
+        localStorage.setItem("token-init-date", new Date().getTime());
+        dispatch(login({ name: body.name, uid: body.uid }));
+      } else {
+        Swal.fire("Error", body.msg, "error");
+        dispatch(authCheckingFinish());
+      }
+    } catch (error) {
+      Swal.fire("Error", "Error no esperado", "error");
+    }
+  };
+};
+
+export const startLogout = () => {
+  return (dispatch) => {
+    localStorage.clear();
+    dispatch(logout());
+  };
+};
+
+const authCheckingFinish = () => ({
+  type: types.authCheckingFinish,
+});
+
 const login = (user) => ({
   type: types.authLogin,
   payload: user,
 });
 
-// const logout = () => ({
-//   type: types.authLogout,
-// });
+const logout = () => ({
+  type: types.authLogout,
+});
