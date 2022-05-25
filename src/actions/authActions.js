@@ -10,7 +10,7 @@ export const startLogin = (email, password) => {
 
       if (body.ok) {
         // console.log(body);
-        localStorage.setItem("x-token", body.token);
+        localStorage.setItem("token", body.token);
         localStorage.setItem("token-init-date", new Date().getTime());
         dispatch(login({ name: body.name, uid: body.uid }));
       } else {
@@ -33,7 +33,7 @@ export const startRegister = (name, email, password) => {
       const body = await res.json();
 
       if (body.ok) {
-        localStorage.setItem("x-token", body.token);
+        localStorage.setItem("token", body.token);
         localStorage.setItem("token-init-date", new Date().getTime());
         dispatch(login({ name: body.name, uid: body.uid }));
       } else {
@@ -53,7 +53,7 @@ export const startAuthCheckingFinish = () => {
 
       if (body.ok) {
         console.log(body);
-        localStorage.setItem("x-token", body.token);
+        localStorage.setItem("token", body.token);
         localStorage.setItem("token-init-date", new Date().getTime());
         dispatch(login({ name: body.name, uid: body.uid }));
       } else {
