@@ -26,9 +26,26 @@ export const startLogin = (email, password) => {
   };
 };
 
-export const startRegister = (user) => {
-  return (dispatch) => {
-    console.log("startRegister");
+export const startRegister = (name, email, password) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetchWithOutToken(
+        "auth/new",
+        { email, password, name },
+        "POST"
+      );
+      const body = await res.json();
+
+      if (body.ok) {
+        localStorage.setItem("x-token", body.token);
+        localStorage.setItem("token-init-date", new Date().getTime());
+        dispatch(login({ name: body.name, uid: body.uid }));
+      } else {
+        Swal.fire("Error", body.msg, "error");
+      }
+    } catch (error) {
+      Swal.fire("Error", "Error no esperado", "error");
+    }
   };
 };
 

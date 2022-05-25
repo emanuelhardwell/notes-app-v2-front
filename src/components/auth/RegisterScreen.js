@@ -1,5 +1,8 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { startRegister } from "../../actions/authActions";
 import { useForm } from "../../hooks/useForm";
 
 const initialState = {
@@ -14,9 +17,23 @@ export const RegisterScreen = () => {
 
   const { rname, remail, rpassword1, rpassword2 } = formRegisterValues;
 
+  const dispatch = useDispatch();
+
   const handleRegister = (e) => {
     e.preventDefault();
-    console.log(formRegisterValues);
+
+    if (rname.trim().length < 3 || remail.trim().length < 3) {
+      return Swal.fire("Error", "El nombre y el email son necesarios", "error");
+    }
+
+    if (rpassword1 !== rpassword2) {
+      return Swal.fire(
+        "Error",
+        "Las contraseñas deben coincidir y ser mayor o igual a 6 caracteres",
+        "error"
+      );
+    }
+    dispatch(startRegister(rname, remail, rpassword1));
   };
 
   return (
